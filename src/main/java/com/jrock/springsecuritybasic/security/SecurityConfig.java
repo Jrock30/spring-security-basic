@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll() // web.ignoring() 를 사용하지 않고 여기서 바로 정적파일을 설정해도 되긴하다.(보안필터를 거쳐서 허용, ignoring 은 보안필터 거치지 않음)
+                .antMatchers("/", "/users").permitAll() // web.ignoring() 를 사용하지 않고 여기서 바로 정적파일을 설정해도 되긴하다.(보안필터를 거쳐서 허용, ignoring 은 보안필터 거치지 않음)
                 .antMatchers("/mypage").hasRole("USER")
                 .antMatchers("/messages").hasRole("MANAGER")
                 .antMatchers("/config").hasRole("ADMIN")
