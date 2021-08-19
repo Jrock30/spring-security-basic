@@ -44,7 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 정적파일은 보안을 거치지 않고 통과한다.
          * 기본적으로는 정적파일 또한 보안을 거친다.
          */
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .antMatchers("/favicon.ico", "/resources/**", "/error");
     }
 
     /**
