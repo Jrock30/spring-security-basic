@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private AuthenticationDetailsSource authenticationDetailsSource;
 
     @Autowired
     private UserDetailsService userDetailsService; // CustomUserDetailsService
@@ -62,6 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN", "USER", "MANAGER");
 //    }
 
+    /**
+     * form 인증 api
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -77,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login_proc")
+                .authenticationDetailsSource(authenticationDetailsSource) // custom authenticationDetailsSource (인증처리 과정에서 처리하는 파라메터 저장하는 클래스), username, password 외에도 추가적으로 파라메터를 설정할 수 있다.
                 .defaultSuccessUrl("/")
                 .permitAll();
 
